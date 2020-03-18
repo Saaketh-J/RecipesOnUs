@@ -1,6 +1,8 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app/app_screens/cuisine_select.dart';
 
-List<String> ingredientsList = List(0);
+var ingredientsList = new List<String>();
 
 class ingredients extends StatelessWidget {
   @override
@@ -8,7 +10,7 @@ class ingredients extends StatelessWidget {
     return Scaffold(
         resizeToAvoidBottomPadding: false,
         body: Container(
-          color: Colors.deepOrangeAccent,
+          color: Color(0xC05000C),
           alignment: Alignment.center,
           child: ListView(children: <Widget>[
             Center(
@@ -17,7 +19,7 @@ class ingredients extends StatelessWidget {
                 child: Text(
                   "Enter Main Ingredients: ",
                   style: TextStyle(
-                      fontSize: 40.0,
+                      fontSize: 38.0,
                       color: Color(0xff000080),
                       fontFamily: 'CormorantGaramond',
                       fontWeight: FontWeight.w500),
@@ -76,17 +78,19 @@ class _TextBoxesState extends State<TextBoxes> {
                 fillColor: Colors.white,
                 enabledBorder: const OutlineInputBorder(
                   borderSide: const BorderSide(
-                      color: Colors.deepOrangeAccent, width: 0.0),
+                      color: Color(0xffED820E), width: 0.0),
                 ),
                 border: OutlineInputBorder(
                     //borderRadius: BorderRadius.circular(27.0),
                     //borderSide: BorderSide(color: Colors.deepOrangeAccent, width: 0.0),
                     )),
+            textInputAction: TextInputAction.next,
             onSubmitted: (var userInput) {
               setState(() {
                 textBox = userInput;
+                ingredientsList.add(userInput);
+
               });
-              ingredientsList.add(userInput);
             }),
       ),
     );
@@ -111,8 +115,29 @@ class NextScreen extends StatelessWidget {
               ),
             ),
             elevation: 6.0,
-            onPressed: () {
-              //TODO
-            }));
+            onPressed: (){
+                selectCuisine(context);
+            },
+        ));
   }
+}
+
+void selectCuisine(BuildContext context) {
+  var alertDialog = AlertDialog(
+    title: Text("You gon Die"),
+    content: Text("$ingredientsList"),
+  );
+
+  showGeneralDialog(
+      context: context,
+      barrierDismissible: true,
+      barrierLabel: MaterialLocalizations.of(context)
+          .modalBarrierDismissLabel,
+      barrierColor: Colors.black45,
+      transitionDuration: const Duration(milliseconds: 200),
+      pageBuilder: (BuildContext buildContext,
+          Animation animation,
+          Animation secondaryAnimation) {
+        return cuisines();
+      });
 }
