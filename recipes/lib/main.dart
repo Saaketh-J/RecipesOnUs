@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutterappexample/app_screens/home_page.dart';
+import 'package:flutterappexample/app_screens/home_page2.dart';
 import 'app_screens/ingredients_select.dart';
 
 void main() {
@@ -20,10 +22,10 @@ class _MyAppState extends State<MyApp> {
     super.initState();
     new Future.delayed(
         const Duration(seconds: 1),
-        () => Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => ingredients()),
-            ));
+            () => Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => homePage()),
+        ));
   }
 
   @override
