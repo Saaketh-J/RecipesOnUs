@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+
 var cuisineSelect;
 
 class cuisines extends StatelessWidget {
@@ -17,15 +18,6 @@ class cuisines extends StatelessWidget {
 
     return Scaffold(
       body: Center(
-        child: Container(
-          width: MediaQuery.of(context).size.width - 30,
-          height: MediaQuery.of(context).size.height - 100,
-          padding: EdgeInsets.all(20),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(40.0),
-            color: Colors.white,
-            boxShadow: [BoxShadow(blurRadius: 5.0)],
-          ),
           child: ListView(children: <Widget>[
             Center(
                 child: Text("Cuisine",
@@ -52,7 +44,6 @@ class cuisines extends StatelessWidget {
             cuisine('images/Korean.jpg', 'Korean'),
           ]),
         ),
-      ),
     );
   }
 }
@@ -80,33 +71,33 @@ class cuisine extends StatelessWidget {
         children: <Widget>[
           Expanded(
               child: Text(
-            cuisineName,
-            style: TextStyle(
-                color: Colors.black,
-                fontFamily: 'Roboto',
-                fontSize: 40.0,
-                shadows: [
-                  Shadow( // bottomLeft
-                      offset: Offset(-1.5, -1.5),
-                      color: Colors.white
-                  ),
-                  Shadow( // bottomRight
-                      offset: Offset(1.5, -1.5),
-                      color: Colors.white
-                  ),
-                  Shadow( // topRight
-                      offset: Offset(1.5, 1.5),
-                      color: Colors.white
-                  ),
-                  Shadow( // topLeft
-                      offset: Offset(-1.5, 1.5),
-                      color: Colors.white
-                  ),
-                ],
-                fontWeight: FontWeight.w600),
-            textAlign: TextAlign.center,
+                cuisineName,
+                style: TextStyle(
+                    color: Colors.black,
+                    fontFamily: 'Roboto',
+                    fontSize: 40.0,
+                    shadows: [
+                      Shadow( // bottomLeft
+                          offset: Offset(-1.5, -1.5),
+                          color: Colors.white
+                      ),
+                      Shadow( // bottomRight
+                          offset: Offset(1.5, -1.5),
+                          color: Colors.white
+                      ),
+                      Shadow( // topRight
+                          offset: Offset(1.5, 1.5),
+                          color: Colors.white
+                      ),
+                      Shadow( // topLeft
+                          offset: Offset(-1.5, 1.5),
+                          color: Colors.white
+                      ),
+                    ],
+                    fontWeight: FontWeight.w600),
+                textAlign: TextAlign.center,
 
-          )),
+              )),
         ],
       ),
     );
