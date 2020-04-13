@@ -19,6 +19,9 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  http: ^0.12.0+4
+  html: ^0.14.0+3
+  flutter_spinkit: ^4.0.0
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -42,21 +45,7 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-    - images/chocolate.jpg
-    - images/african.jpg
-    - images/American.jpg
-    - images/Appetizer.jpg
-    - images/Asian_Fusion.jpg
-    - images/Dessert.jpg
-    - images/Entree.jpg
-    - images/Greek.jpg
-    - images/Indian.jpg
-    - images/Italian.jpg
-    - images/Korean.jpg
-    - images/Mexican.jpg
-    - images/Thai.jpg
-    - images/Turkish.jpg
-    - images/Vietnamese.jpg
+    - images/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
@@ -78,8 +67,9 @@ flutter:
     - family: CormorantGaramond
       fonts:
         - asset: fonts/Garamond/CormorantGaramond-Regular.ttf
-          weight: 400
-          style: normal
+          weight: 500
+        - asset: fonts/Garamond/cormorantGaramond-SemiBold.ttf
+          weight: 600
 
   #
   # For details regarding fonts from package dependencies,

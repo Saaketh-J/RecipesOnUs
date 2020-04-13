@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutterappexample/app_screens/home_page.dart';
-import 'package:flutterappexample/app_screens/home_page2.dart';
+import 'package:flutter_app/app_screens/home_page.dart';
+import 'package:flutter_app/app_screens/home_page2.dart';
 import 'app_screens/ingredients_select.dart';
 
 void main() {

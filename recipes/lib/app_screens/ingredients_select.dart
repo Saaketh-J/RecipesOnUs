@@ -1,54 +1,62 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_app/app_screens/cuisine_select.dart';
-
-var ingredientsList = new List<String>();
+import 'package:flutter_app/app_screens/recipetype_select.dart';
+import 'package:flutter_app/globals.dart' as globals;
 
 class ingredients extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        resizeToAvoidBottomPadding: false,
-        body: Container(
-          color: Color(0xC05000C),
-          alignment: Alignment.center,
-          child: ListView(children: <Widget>[
-            Center(
-              child: Container(
-                margin: EdgeInsets.only(top: 40.0),
-                child: Text(
-                  "Enter Main Ingredients: ",
-                  style: TextStyle(
-                      fontSize: 38.0,
-                      color: Color(0xff000080),
-                      fontFamily: 'CormorantGaramond',
-                      fontWeight: FontWeight.w500),
+    return GestureDetector(
+        onTap: () {
+          FocusScopeNode currentFocus = FocusScope.of(context);
+
+          if (!currentFocus.hasPrimaryFocus) {
+            currentFocus.unfocus();
+          }
+        },
+        child: Scaffold(
+            resizeToAvoidBottomPadding: false,
+            body: Container(
+              color: Color(0xC05000C),
+              alignment: Alignment.center,
+              child: ListView(children: <Widget>[
+                Center(
+                  child: Container(
+                    margin: EdgeInsets.only(top: 40.0),
+                    child: Text(
+                      "Enter Main Ingredients: ",
+                      style: TextStyle(
+                        fontSize: 38.0,
+                        color: Color(0xff000080),
+                        fontFamily: 'CormorantGaramond',
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ),
                 ),
-              ),
-            ),
-            Container(
-              padding: EdgeInsets.only(top: 30.0),
-            ),
-            Container(
-              child: TextBoxes(),
-            ),
-            Container(
-              child: TextBoxes(),
-            ),
-            Container(
-              child: TextBoxes(),
-            ),
-            Container(
-              child: TextBoxes(),
-            ),
-            Container(
-              child: TextBoxes(),
-            ),
-            Container(
-              child: NextScreen(),
-            )
-          ]),
-        ));
+                Container(
+                  padding: EdgeInsets.only(top: 30.0),
+                ),
+                Container(
+                  child: TextBoxes(),
+                ),
+                Container(
+                  child: TextBoxes(),
+                ),
+                Container(
+                  child: TextBoxes(),
+                ),
+                Container(
+                  child: TextBoxes(),
+                ),
+                Container(
+                  child: TextBoxes(),
+                ),
+                Container(
+                  child: NextScreen(),
+                )
+              ]),
+            )));
   }
 }
 
@@ -77,19 +85,17 @@ class _TextBoxesState extends State<TextBoxes> {
                 filled: true,
                 fillColor: Colors.white,
                 enabledBorder: const OutlineInputBorder(
-                  borderSide: const BorderSide(
-                      color: Color(0xffED820E), width: 0.0),
+                  borderSide:
+                      const BorderSide(color: Color(0xffED820E), width: 0.0),
                 ),
                 border: OutlineInputBorder(
                     //borderRadius: BorderRadius.circular(27.0),
                     //borderSide: BorderSide(color: Colors.deepOrangeAccent, width: 0.0),
                     )),
-            textInputAction: TextInputAction.next,
             onSubmitted: (var userInput) {
               setState(() {
                 textBox = userInput;
-                ingredientsList.add(userInput);
-
+                globals.ingredientsList.add(userInput.trim());
               });
             }),
       ),
@@ -104,40 +110,38 @@ class NextScreen extends StatelessWidget {
         margin: EdgeInsets.only(top: 20.0, right: 70.0, left: 70.0),
         height: 50.0,
         child: RaisedButton(
-            color: Colors.deepOrange,
-            child: Text(
-              "Select Cuisine",
-              style: TextStyle(
-                fontSize: 20.0,
-                color: Colors.white,
-                fontFamily: 'Garamond',
-                fontWeight: FontWeight.w600,
-              ),
+          color: Colors.deepOrange,
+          child: Text(
+            "Select Course",
+            style: TextStyle(
+              fontSize: 20.0,
+              color: Colors.white,
+              fontFamily: 'Garamond',
+              fontWeight: FontWeight.w600,
             ),
-            elevation: 6.0,
-            onPressed: (){
-                selectCuisine(context);
-            },
+          ),
+          elevation: 6.0,
+          onPressed: () {
+            selectCuisineType(context);
+          },
         ));
   }
 }
 
-void selectCuisine(BuildContext context) {
+void selectCuisineType(BuildContext context) {
   var alertDialog = AlertDialog(
     title: Text("You gon Die"),
-    content: Text("$ingredientsList"),
+    content: Text("${globals.ingredientsList}"),
   );
 
   showGeneralDialog(
       context: context,
       barrierDismissible: true,
-      barrierLabel: MaterialLocalizations.of(context)
-          .modalBarrierDismissLabel,
+      barrierLabel: MaterialLocalizations.of(context).modalBarrierDismissLabel,
       barrierColor: Colors.black45,
       transitionDuration: const Duration(milliseconds: 200),
-      pageBuilder: (BuildContext buildContext,
-          Animation animation,
+      pageBuilder: (BuildContext buildContext, Animation animation,
           Animation secondaryAnimation) {
-        return cuisines();
+        return cuisineTypes();
       });
 }

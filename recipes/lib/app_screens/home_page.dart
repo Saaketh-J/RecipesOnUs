@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutterappexample/app_screens/home_page2.dart';
-import 'package:flutterappexample/app_screens/ingredients_select.dart';
+import 'package:flutter_app/app_screens/home_page2.dart';
+import 'package:flutter_app/app_screens/ingredients_select.dart';
 
 var basicingredients = new List<String>();
 

@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutterappexample/app_screens/ingredients_select.dart';
+import 'package:flutter_app/app_screens/ingredients_select.dart';
 
 
 
 
 class work extends StatelessWidget {
 
-  static final showGrid = false; // Set to false to show ListView
+  static final showGrid = true; // Set to false to show ListView
 
   @override
   Widget build(BuildContext context) {
@@ -178,10 +178,6 @@ class singleIngredient extends StatelessWidget {
 
 
 void selectCuisine(BuildContext context) {
-  var alertDialog = AlertDialog(
-    title: Text("Please work"),
-    content: Text("$ingredientsList"),
-  );
 
   showGeneralDialog(
       context: context,
