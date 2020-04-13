@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_app/app_screens/home_page2.dart';
-import 'package:flutter_app/app_screens/ingredients_select.dart';
+import 'package:flutterappexample/app_screens/home_page2.dart';
+import 'package:flutterappexample/app_screens/settingsPage.dart';
 
-var basicingredients = new List<String>();
 
 class homePage extends StatelessWidget {
   @override
@@ -54,8 +53,34 @@ class homePage extends StatelessWidget {
           ],
         ),
       ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          settingsPage1(context);
+        },
+        child: Icon(
+            Icons.settings,
+            color: Colors.white,
+            size: 27),
+        backgroundColor: Colors.deepOrange,
+      ),
     );
   }
+}
+
+
+void settingsPage1(BuildContext context) {
+  showGeneralDialog(
+      context: context,
+      barrierDismissible: true,
+      barrierLabel: MaterialLocalizations.of(context)
+          .modalBarrierDismissLabel,
+      barrierColor: Colors.black45,
+      transitionDuration: const Duration(milliseconds: 200),
+      pageBuilder: (BuildContext buildContext,
+          Animation animation,
+          Animation secondaryAnimation) {
+        return settingsPage();
+      });
 }
 
 
@@ -77,19 +102,14 @@ class FindCuisine extends StatelessWidget {
           ),
           elevation: 6.0,
           onPressed: (){
-            selectCuisine(context);
+            nextPage(context);
           },
         ));
   }
 }
 
 
-void selectCuisine(BuildContext context) {
-  var alertDialog = AlertDialog(
-    title: Text("You gon Die"),
-    content: Text("$basicingredients"),
-  );
-
+void nextPage(BuildContext context) {
   showGeneralDialog(
       context: context,
       barrierDismissible: true,
@@ -100,6 +120,6 @@ void selectCuisine(BuildContext context) {
       pageBuilder: (BuildContext buildContext,
           Animation animation,
           Animation secondaryAnimation) {
-        return work();
+        return standardIngredients();
       });
 }
