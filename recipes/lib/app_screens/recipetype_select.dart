@@ -29,19 +29,19 @@ class cuisineTypes extends StatelessWidget {
             child: Column(
                 children: <Widget>[
                   RaisedButton(
-                    child: cuisine('images/Appetizer.jpg', 'Appetizers'),
+                    child: cuisine('images/Appetizer.jpg', 'Appetizer'),
                     onPressed: () {
                       selectCuisine(context);
                     },
                   ),
                   RaisedButton(
-                    child: cuisine('images/Entree.jpg', 'Entrees'),
+                    child: cuisine('images/Entree.jpg', 'Entree'),
                     onPressed: () {
                       selectCuisine(context);
                     },
                   ),
                   RaisedButton(
-                    child: cuisine('images/Dessert.jpg', 'Desserts'),
+                    child: cuisine('images/Dessert.jpg', 'Dessert'),
                     onPressed: () {
                       selectCuisine(context);
                     },

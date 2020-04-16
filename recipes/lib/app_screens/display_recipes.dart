@@ -8,6 +8,7 @@ import 'package:http/http.dart' as http;
 import 'package:html/dom.dart' as dom;
 import 'package:flutter_app/globals.dart' as globals;
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:flutter_app/app_screens/recipes_webview.dart';
 
 List<Map<String, dynamic>> linkMap = [];
 
@@ -16,6 +17,7 @@ class main extends StatelessWidget {
   Widget build(BuildContext context) {
     // TODO: implement build
     getYummlyData();
+    YummlyRecipes(context);
     return FutureBuilder<Widget>(
         future: waiting(),
         builder: (context, AsyncSnapshot<Widget> snapshot) {
@@ -43,26 +45,6 @@ class fake extends StatelessWidget {
   }
 }
 
-//class StatefulWrapper extends StatefulWidget {
-//  final Function onInit;
-//  final Widget child;
-//  const StatefulWrapper({@required this.onInit, @required this.child});
-//  @override
-//  _StatefulWrapperState createState() => _StatefulWrapperState();
-//}
-//class _StatefulWrapperState extends State<StatefulWrapper> {
-//  @override
-//  void initState() {
-//    if(widget.onInit != null) {
-//      widget.onInit();
-//    }
-//    super.initState();
-//  }
-//  @override
-//  Widget build(BuildContext context) {
-//    return widget.child;
-//  }
-//}
 
 class recipes extends StatelessWidget {
   Widget build(BuildContext context) {
@@ -92,31 +74,61 @@ class recipes extends StatelessWidget {
 }
 
 // #docregion grid
+List<RaisedButton> dispYummly = new List<RaisedButton>();
+
+List<Widget> YummlyRecipes(context) {
+  for (int i = 0; i < 10; i++) {
+    dispYummly.add(new RaisedButton(
+      child: singleRecipe(linkMap[i].values.elementAt(0)),
+      onPressed: () {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => webview(linkMap[i].values.elementAt(0),
+                    linkMap[i].values.elementAt(1))));
+      },
+    ));
+  }
+  return dispYummly;
+}
 
 Widget _buildGrid() => CustomScrollView(
-      primary: false,
-      slivers: <Widget>[
-        SliverPadding(
-          padding: const EdgeInsets.all(20),
-          sliver: SliverGrid.count(
-            crossAxisSpacing: 10,
-            mainAxisSpacing: 10,
-            crossAxisCount: 2,
-            children: <Widget>[
-              Container(
-                child: singleRecipe(linkMap[0].values.elementAt(0)),
-              ),
-              Container(
-                child: singleRecipe(linkMap[1].values.elementAt(0)),
-              ),
-              Container(
-                child: singleRecipe(linkMap[2].values.elementAt(0)),
-              ),
-            ],
+  primary: false,
+  slivers: <Widget>[
+    SliverPadding(
+      padding: const EdgeInsets.all(20),
+      sliver: SliverGrid.count(
+        crossAxisSpacing: 10,
+        mainAxisSpacing: 10,
+        crossAxisCount: 2,
+        children: <Widget>[
+          Container(
+            child: dispYummly[0],
           ),
-        ),
-      ],
-    );
+          Container(
+            child: singleRecipe(linkMap[1].values.elementAt(0)),
+          ),
+          Container(
+            child: singleRecipe(linkMap[2].values.elementAt(0)),
+          ),
+        ],
+      ),
+    ),
+  ],
+);
+/*
+Widget _buildGrid(context) => Container(
+  child: ListView.builder(
+      itemCount: dispYummly.length,
+      itemBuilder: (BuildContext context, int index) {
+        return Container(
+          child: dispYummly[index],
+        );
+      }
+  ),
+);
+
+ */
 // #enddocregion grid
 
 // #docregion list
@@ -163,21 +175,25 @@ Future<Widget> waiting() =>
     // Imagine that this function is
 // more complex and slow.
     Future.delayed(
-      Duration(seconds: 5),
+      Duration(seconds: 7),
       () => fake(),
     );
 
 Future getYummlyData() async {
   print(globals.ingredientsList);
-  String website =
-      'https://www.yummly.com/recipes?allowedCuisine=cuisine%5Ecuisine-' +
-          globals.cuisineType;
+  String website = 'https://www.yummly.com/recipes/' +
+      globals.recipeType.toLowerCase() +
+      '?';
 
   for (String ingredient in globals.ingredientsList) {
     website = website +
         '&allowedIngredient=' +
         ingredient.replaceAll(' ', '+').toLowerCase();
   }
+
+  website = website +
+      '&allowedCuisine=cuisine%5Ecuisine-' +
+      globals.cuisineType.toLowerCase();
 
   website = website + '&q=' + globals.recipeType + '&taste-pref-appended=true';
 
@@ -200,29 +216,4 @@ Future getYummlyData() async {
     });
   }
   print(json.encode(linkMap));
-}
-
-class NextScreen extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-        margin: EdgeInsets.only(top: 20.0, right: 70.0, left: 70.0),
-        height: 50.0,
-        child: RaisedButton(
-          color: Colors.deepOrange,
-          child: Text(
-            "Select Cuisine",
-            style: TextStyle(
-              fontSize: 20.0,
-              color: Colors.white,
-              fontFamily: 'Garamond',
-              fontWeight: FontWeight.w600,
-            ),
-          ),
-          elevation: 6.0,
-          onPressed: () {
-            getYummlyData();
-          },
-        ));
-  }
 }

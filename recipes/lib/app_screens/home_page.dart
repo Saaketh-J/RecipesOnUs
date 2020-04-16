@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutterappexample/app_screens/home_page2.dart';
-import 'package:flutterappexample/app_screens/settingsPage.dart';
+import 'package:flutter_app/app_screens/home_page2.dart';
+import 'package:flutter_app/app_screens/settingsPage.dart';
 
 
 class homePage extends StatelessWidget {
