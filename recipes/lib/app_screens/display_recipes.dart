@@ -10,14 +10,19 @@ import 'package:flutter_app/globals.dart' as globals;
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_app/app_screens/recipes_webview.dart';
 
-List<Map<String, dynamic>> linkMap = [];
+List<Map<String, dynamic>> YlinkMap = [];
+List<Map<String, dynamic>> YpicsMap = [];
+List<Map<String, dynamic>> ElinkMap = [];
+List<RaisedButton> dispYummly = new List<RaisedButton>();
+List<RaisedButton> dispEpi = new List<RaisedButton>();
 
 class main extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    getYummlyData();
     YummlyRecipes(context);
+    getEpiData();
+    //EpiRecipes(context);
     return FutureBuilder<Widget>(
         future: waiting(),
         builder: (context, AsyncSnapshot<Widget> snapshot) {
@@ -74,23 +79,39 @@ class recipes extends StatelessWidget {
 }
 
 // #docregion grid
-List<RaisedButton> dispYummly = new List<RaisedButton>();
 
-List<Widget> YummlyRecipes(context) {
+Future<List<Widget>> YummlyRecipes(context) async {
+  YlinkMap = await getYummlyData();
   for (int i = 0; i < 10; i++) {
     dispYummly.add(new RaisedButton(
-      child: singleRecipe(linkMap[i].values.elementAt(0)),
+      child: singleRecipe(YlinkMap[i].values.elementAt(0)),
       onPressed: () {
         Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => webview(linkMap[i].values.elementAt(0),
-                    linkMap[i].values.elementAt(1))));
+                builder: (context) => webview(YlinkMap[i].values.elementAt(0),
+                    YlinkMap[i].values.elementAt(1))));
       },
     ));
   }
   return dispYummly;
 }
+//Future<List<Widget>> EpiRecipes(context) async {
+//  YlinkMap = await getEpiData();
+//  for (int i = 0; i < 10; i++) {
+//    dispEpi.add(new RaisedButton(
+//      child: singleRecipe(ElinkMap[i].values.elementAt(0)),
+//      onPressed: () {
+//        Navigator.push(
+//            context,
+//            MaterialPageRoute(
+//                builder: (context) => webview(ElinkMap[i].values.elementAt(0),
+//                    ElinkMap[i].values.elementAt(1))));
+//      },
+//    ));
+//  }
+//  return dispEpi;
+//}
 
 Widget _buildGrid() => CustomScrollView(
   primary: false,
@@ -106,10 +127,25 @@ Widget _buildGrid() => CustomScrollView(
             child: dispYummly[0],
           ),
           Container(
-            child: singleRecipe(linkMap[1].values.elementAt(0)),
+            child: dispYummly[1],
           ),
           Container(
-            child: singleRecipe(linkMap[2].values.elementAt(0)),
+            child: dispYummly[2],
+          ),
+          Container(
+            child: dispYummly[3],
+          ),
+          Container(
+            child: dispYummly[4],
+          ),
+          Container(
+            child: dispYummly[5],
+          ),
+          Container(
+            child: dispYummly[6],
+          ),
+          Container(
+            child: dispYummly[7],
           ),
         ],
       ),
@@ -179,6 +215,7 @@ Future<Widget> waiting() =>
       () => fake(),
     );
 
+
 Future getYummlyData() async {
   print(globals.ingredientsList);
   String website = 'https://www.yummly.com/recipes/' +
@@ -194,26 +231,65 @@ Future getYummlyData() async {
   website = website +
       '&allowedCuisine=cuisine%5Ecuisine-' +
       globals.cuisineType.toLowerCase();
-
   website = website + '&q=' + globals.recipeType + '&taste-pref-appended=true';
 
-  print(globals.recipeType);
-  print(website);
   http.Response response = await http.get(website);
   dom.Document convertData = parse(response.body);
 
-  var links = convertData.getElementsByTagName(
+  var Ylinks = convertData.getElementsByTagName(
       ('div.card-info.primary-dark > a.card-title.p2-text.font-normal'));
 
-  print(convertData
-      .getElementsByTagName('a.result-title js-result-title')
-      .length);
+  var Ypics = convertData.getElementsByTagName(
+      'img.recipe-card-img.full'
+  );
 
-  for (var link in links) {
-    linkMap.add({
+  for (var link in Ylinks) {
+    YlinkMap.add({
       'title': link.text.trim(),
       'href': link.attributes['href'],
     });
   }
-  print(json.encode(linkMap));
+
+  for (var pic in Ypics) {
+    YpicsMap.add({
+      'img': pic.attributes['src'],
+    });
+  }
+
+  //print(json.encode(YlinkMap));
+  return YlinkMap;
 }
+
+
+Future getEpiData() async {
+  print(globals.ingredientsList);
+  String website = 'https://www.epicurious.com/search/?cuisine=' + globals.cuisineType.toLowerCase() + '&meal=' + globals.recipeType.toLowerCase() + '&content=recipe&include=';
+
+  for (String ingredient in globals.ingredientsList) {
+    website = website +
+        ingredient.replaceAll(' ', '%20').toLowerCase() + '%2C';
+  }
+  website = website.substring(0, website.length-3);
+
+  print(website);
+  http.Response response = await http.get(website);
+  dom.Document convertData = parse(response.body);
+
+  var Elinks = convertData.getElementsByTagName(
+      ('div.recipe-panel > div.controls > a.show-quick-view'));
+
+
+  for (var link in Elinks) {
+    ElinkMap.add({
+      'title': link.attributes['title'],
+      'href': link.attributes['href'],
+    });
+  }
+
+
+  print(json.encode(ElinkMap));
+  return ElinkMap;
+}
+
+
+
