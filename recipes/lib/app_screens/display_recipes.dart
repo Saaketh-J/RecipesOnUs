@@ -21,8 +21,8 @@ class main extends StatelessWidget {
   Widget build(BuildContext context) {
     // TODO: implement build
     YummlyRecipes(context);
-    getEpiData();
-    //EpiRecipes(context);
+    //getEpiData();
+    EpiRecipes(context);
     return FutureBuilder<Widget>(
         future: waiting(),
         builder: (context, AsyncSnapshot<Widget> snapshot) {
@@ -49,7 +49,6 @@ class fake extends StatelessWidget {
     return Container(width: 0.0, height: 0.0);
   }
 }
-
 
 class recipes extends StatelessWidget {
   Widget build(BuildContext context) {
@@ -90,68 +89,71 @@ Future<List<Widget>> YummlyRecipes(context) async {
             context,
             MaterialPageRoute(
                 builder: (context) => webview(YlinkMap[i].values.elementAt(0),
-                    YlinkMap[i].values.elementAt(1))));
+                    YlinkMap[i].values.elementAt(1), 'Yummly')));
       },
     ));
   }
   return dispYummly;
 }
-//Future<List<Widget>> EpiRecipes(context) async {
-//  YlinkMap = await getEpiData();
-//  for (int i = 0; i < 10; i++) {
-//    dispEpi.add(new RaisedButton(
-//      child: singleRecipe(ElinkMap[i].values.elementAt(0)),
-//      onPressed: () {
-//        Navigator.push(
-//            context,
-//            MaterialPageRoute(
-//                builder: (context) => webview(ElinkMap[i].values.elementAt(0),
-//                    ElinkMap[i].values.elementAt(1))));
-//      },
-//    ));
-//  }
-//  return dispEpi;
-//}
+
+Future<List<Widget>> EpiRecipes(context) async {
+  print(ElinkMap);
+  ElinkMap = await getEpiData();
+  print(json.encode(ElinkMap));
+  for (int i = 0; i < 10; i++) {
+    dispEpi.add(new RaisedButton(
+      child: singleRecipe(ElinkMap[i].values.elementAt(0)),
+      onPressed: () {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => webview(ElinkMap[i].values.elementAt(0),
+                    ElinkMap[i].values.elementAt(1), 'Epi')));
+      },
+    ));
+  }
+  return dispEpi;
+}
 
 Widget _buildGrid() => CustomScrollView(
-  primary: false,
-  slivers: <Widget>[
-    SliverPadding(
-      padding: const EdgeInsets.all(20),
-      sliver: SliverGrid.count(
-        crossAxisSpacing: 10,
-        mainAxisSpacing: 10,
-        crossAxisCount: 2,
-        children: <Widget>[
-          Container(
-            child: dispYummly[0],
+      primary: false,
+      slivers: <Widget>[
+        SliverPadding(
+          padding: const EdgeInsets.all(20),
+          sliver: SliverGrid.count(
+            crossAxisSpacing: 10,
+            mainAxisSpacing: 10,
+            crossAxisCount: 2,
+            children: <Widget>[
+              Container(
+                child: dispYummly[0],
+              ),
+              Container(
+                child: dispYummly[1],
+              ),
+              Container(
+                child: dispYummly[2],
+              ),
+              Container(
+                child: dispYummly[3],
+              ),
+              Container(
+                child: dispEpi[4],
+              ),
+              Container(
+                child: dispEpi[5],
+              ),
+              Container(
+                child: dispEpi[6],
+              ),
+              Container(
+                child: dispEpi[7],
+              ),
+            ],
           ),
-          Container(
-            child: dispYummly[1],
-          ),
-          Container(
-            child: dispYummly[2],
-          ),
-          Container(
-            child: dispYummly[3],
-          ),
-          Container(
-            child: dispYummly[4],
-          ),
-          Container(
-            child: dispYummly[5],
-          ),
-          Container(
-            child: dispYummly[6],
-          ),
-          Container(
-            child: dispYummly[7],
-          ),
-        ],
-      ),
-    ),
-  ],
-);
+        ),
+      ],
+    );
 /*
 Widget _buildGrid(context) => Container(
   child: ListView.builder(
@@ -215,7 +217,6 @@ Future<Widget> waiting() =>
       () => fake(),
     );
 
-
 Future getYummlyData() async {
   print(globals.ingredientsList);
   String website = 'https://www.yummly.com/recipes/' +
@@ -239,9 +240,7 @@ Future getYummlyData() async {
   var Ylinks = convertData.getElementsByTagName(
       ('div.card-info.primary-dark > a.card-title.p2-text.font-normal'));
 
-  var Ypics = convertData.getElementsByTagName(
-      'img.recipe-card-img.full'
-  );
+  var Ypics = convertData.getElementsByTagName('img.recipe-card-img.full');
 
   for (var link in Ylinks) {
     YlinkMap.add({
@@ -260,24 +259,36 @@ Future getYummlyData() async {
   return YlinkMap;
 }
 
-
 Future getEpiData() async {
   print(globals.ingredientsList);
-  String website = 'https://www.epicurious.com/search/?cuisine=' + globals.cuisineType.toLowerCase() + '&meal=' + globals.recipeType.toLowerCase() + '&content=recipe&include=';
-
-  for (String ingredient in globals.ingredientsList) {
+  String website = 'https://www.epicurious.com/search/?cuisine=' +
+      globals.cuisineType.toLowerCase();
+  if (globals.recipeType == 'Entree') {
+    website = website + '&meal=lunch&content=recipe';
+  } else {
     website = website +
-        ingredient.replaceAll(' ', '%20').toLowerCase() + '%2C';
+        '&meal=' +
+        globals.recipeType.toLowerCase() +
+        '&content=recipe';
   }
-  website = website.substring(0, website.length-3);
+  print(website);
+
+  if (globals.ingredientsList.length > 0) {
+    website = website + '&include=';
+
+    for (String ingredient in globals.ingredientsList) {
+      website =
+          website + ingredient.replaceAll(' ', '%20').toLowerCase() + '%2C';
+    }
+    website = website.substring(0, website.length - 3);
+  }
 
   print(website);
   http.Response response = await http.get(website);
   dom.Document convertData = parse(response.body);
 
   var Elinks = convertData.getElementsByTagName(
-      ('div.recipe-panel > div.controls > a.show-quick-view'));
-
+      ('div.results-group > article.recipe-content-card > a.view-complete-item'));
 
   for (var link in Elinks) {
     ElinkMap.add({
@@ -286,10 +297,7 @@ Future getEpiData() async {
     });
   }
 
-
   print(json.encode(ElinkMap));
+  print("hi");
   return ElinkMap;
 }
-
-
-
