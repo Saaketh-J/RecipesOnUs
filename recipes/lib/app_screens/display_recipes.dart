@@ -71,7 +71,7 @@ class recipes extends StatelessWidget {
         centerTitle: true, //default makes it in the middle
         backgroundColor: Colors.deepOrangeAccent,
       ),
-      body: Center(child: _buildGrid()),
+      body: Center(child: _buildGrid(context)),
     );
     //);
   }
@@ -81,7 +81,10 @@ class recipes extends StatelessWidget {
 
 Future<List<Widget>> YummlyRecipes(context) async {
   YlinkMap = await getYummlyData();
-  for (int i = 0; i < 10; i++) {
+  for (int i = 0; i < YlinkMap.length; i++) {
+    if (i > 10) {
+      break;
+    }
     dispYummly.add(new RaisedButton(
       child: singleRecipe(YlinkMap[i].values.elementAt(0)),
       onPressed: () {
@@ -97,10 +100,11 @@ Future<List<Widget>> YummlyRecipes(context) async {
 }
 
 Future<List<Widget>> EpiRecipes(context) async {
-  print(ElinkMap);
   ElinkMap = await getEpiData();
-  print(json.encode(ElinkMap));
-  for (int i = 0; i < 10; i++) {
+  for (int i = 0; i < ElinkMap.length; i++) {
+    if (i > 10) {
+      break;
+    }
     dispEpi.add(new RaisedButton(
       child: singleRecipe(ElinkMap[i].values.elementAt(0)),
       onPressed: () {
@@ -115,58 +119,47 @@ Future<List<Widget>> EpiRecipes(context) async {
   return dispEpi;
 }
 
-Widget _buildGrid() => CustomScrollView(
+Widget _buildGrid(context) => Scaffold(
+    bottomNavigationBar: Container(
+        height: 55.0,
+        child: BottomAppBar(
+            child: FlatButton(
+          child: Text("Restart"),
+          onPressed: () {
+            dispYummly = new List<RaisedButton>();
+            dispEpi = new List<RaisedButton>();
+            ElinkMap = [];
+            YlinkMap = [];
+            goToIngredients(context);
+          },
+        ))),
+    body: CustomScrollView(
       primary: false,
       slivers: <Widget>[
         SliverPadding(
-          padding: const EdgeInsets.all(20),
-          sliver: SliverGrid.count(
-            crossAxisSpacing: 10,
-            mainAxisSpacing: 10,
-            crossAxisCount: 2,
-            children: <Widget>[
-              Container(
-                child: dispYummly[0],
-              ),
-              Container(
-                child: dispYummly[1],
-              ),
-              Container(
-                child: dispYummly[2],
-              ),
-              Container(
-                child: dispYummly[3],
-              ),
-              Container(
-                child: dispEpi[4],
-              ),
-              Container(
-                child: dispEpi[5],
-              ),
-              Container(
-                child: dispEpi[6],
-              ),
-              Container(
-                child: dispEpi[7],
-              ),
-            ],
-          ),
-        ),
+            padding: const EdgeInsets.all(20),
+            sliver: SliverGrid.count(
+                crossAxisSpacing: 10,
+                mainAxisSpacing: 10,
+                crossAxisCount: 2,
+                children: compile())),
       ],
-    );
-/*
-Widget _buildGrid(context) => Container(
-  child: ListView.builder(
-      itemCount: dispYummly.length,
-      itemBuilder: (BuildContext context, int index) {
-        return Container(
-          child: dispYummly[index],
-        );
-      }
-  ),
-);
+    ));
 
- */
+List<Widget> compile() {
+  var masterList = List<Widget>();
+  masterList = List.generate((dispYummly.length) ~/ 2, (index) {
+    return dispYummly[index];
+  });
+  masterList += List.generate((dispEpi.length) ~/ 2, (index) {
+    return dispEpi[index];
+  });
+  masterList += List.generate((dispYummly.length) ~/ 2, (index) {
+    return dispYummly[index + dispYummly.length ~/ 2];
+  });
+  return masterList;
+}
+
 // #enddocregion grid
 
 // #docregion list
@@ -300,4 +293,17 @@ Future getEpiData() async {
   print(json.encode(ElinkMap));
   print("hi");
   return ElinkMap;
+}
+
+void goToIngredients(BuildContext context) {
+  showGeneralDialog(
+      context: context,
+      barrierDismissible: true,
+      barrierLabel: MaterialLocalizations.of(context).modalBarrierDismissLabel,
+      barrierColor: Colors.black45,
+      transitionDuration: const Duration(milliseconds: 200),
+      pageBuilder: (BuildContext buildContext, Animation animation,
+          Animation secondaryAnimation) {
+        return ingredients();
+      });
 }

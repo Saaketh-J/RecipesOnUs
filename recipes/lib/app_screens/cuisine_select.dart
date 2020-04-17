@@ -8,6 +8,7 @@ var cuisineSelect;
 class cuisines extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    globals.cuisineType = "";
     theme:
     ThemeData(
         accentColor: Colors.yellow,

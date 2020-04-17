@@ -6,6 +6,7 @@ import 'package:flutter_app/globals.dart' as globals;
 class ingredients extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    globals.ingredientsList = new List<String>();
     return GestureDetector(
         onTap: () {
           FocusScopeNode currentFocus = FocusScope.of(context);
