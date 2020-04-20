@@ -42,5 +42,19 @@ class webview extends StatelessWidget {
         ),
       );
     }
+    if(website == 'F52') {
+      return new Scaffold(
+        appBar: AppBar(
+          title: Text(name),
+        ),
+        body: Center(
+          child: WebviewScaffold(
+            url: 'https://food52.com/' + recipeUrl,
+            withZoom: true,
+            withLocalStorage: false,
+          ),
+        ),
+      );
+    }
   }
 }

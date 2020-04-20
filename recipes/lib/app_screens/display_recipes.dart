@@ -13,16 +13,18 @@ import 'package:flutter_app/app_screens/recipes_webview.dart';
 List<Map<String, dynamic>> YlinkMap = [];
 List<Map<String, dynamic>> YpicsMap = [];
 List<Map<String, dynamic>> ElinkMap = [];
+List<Map<String, dynamic>> FlinkMap = [];
 List<RaisedButton> dispYummly = new List<RaisedButton>();
 List<RaisedButton> dispEpi = new List<RaisedButton>();
+List<RaisedButton> disp52 = new List<RaisedButton>();
 
 class main extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
     YummlyRecipes(context);
-    //getEpiData();
     EpiRecipes(context);
+    F52Recipes(context);
     return FutureBuilder<Widget>(
         future: waiting(),
         builder: (context, AsyncSnapshot<Widget> snapshot) {
@@ -119,6 +121,27 @@ Future<List<Widget>> EpiRecipes(context) async {
   return dispEpi;
 }
 
+Future<List<Widget>> F52Recipes(context) async {
+  FlinkMap = await get52Data();
+  for (int i = 0; i < FlinkMap.length; i++) {
+    if (i > 10) {
+      break;
+    }
+    disp52.add(new RaisedButton(
+      child: singleRecipe(FlinkMap[i].values.elementAt(0)),
+      onPressed: () {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => webview(FlinkMap[i].values.elementAt(0),
+                    FlinkMap[i].values.elementAt(1), 'F52')));
+      },
+    ));
+  }
+  return disp52;
+}
+
+
 Widget _buildGrid(context) => Scaffold(
     bottomNavigationBar: Container(
         height: 55.0,
@@ -128,8 +151,10 @@ Widget _buildGrid(context) => Scaffold(
           onPressed: () {
             dispYummly = new List<RaisedButton>();
             dispEpi = new List<RaisedButton>();
+            disp52 = new List<RaisedButton>();
             ElinkMap = [];
             YlinkMap = [];
+            FlinkMap = [];
             goToIngredients(context);
           },
         ))),
@@ -153,6 +178,9 @@ List<Widget> compile() {
   });
   masterList += List.generate((dispEpi.length) ~/ 2, (index) {
     return dispEpi[index];
+  });
+  masterList += List.generate((disp52.length) ~/ 2, (index) {
+    return disp52[index];
   });
   masterList += List.generate((dispYummly.length) ~/ 2, (index) {
     return dispYummly[index + dispYummly.length ~/ 2];
@@ -253,7 +281,6 @@ Future getYummlyData() async {
 }
 
 Future getEpiData() async {
-  print(globals.ingredientsList);
   String website = 'https://www.epicurious.com/search/?cuisine=' +
       globals.cuisineType.toLowerCase();
   if (globals.recipeType == 'Entree') {
@@ -264,7 +291,6 @@ Future getEpiData() async {
         globals.recipeType.toLowerCase() +
         '&content=recipe';
   }
-  print(website);
 
   if (globals.ingredientsList.length > 0) {
     website = website + '&include=';
@@ -276,7 +302,6 @@ Future getEpiData() async {
     website = website.substring(0, website.length - 3);
   }
 
-  print(website);
   http.Response response = await http.get(website);
   dom.Document convertData = parse(response.body);
 
@@ -290,9 +315,44 @@ Future getEpiData() async {
     });
   }
 
-  print(json.encode(ElinkMap));
-  print("hi");
   return ElinkMap;
+}
+
+Future get52Data() async {
+  String website = 'https://food52.com/recipes/search?q=';
+
+  if (globals.ingredientsList.length > 0) {
+    for (String ingredient in globals.ingredientsList) {
+      website = website + ingredient.replaceAll(' ', '+').toLowerCase() + '+';
+    }
+    website = website +
+        globals.cuisineType.toLowerCase() +
+        '&tag=' +
+        globals.recipeType.toLowerCase();
+  }
+  else{
+    website = website +
+        globals.cuisineType.toLowerCase() +
+        '&tag=' +
+        globals.recipeType.toLowerCase();
+  }
+
+  print(website);
+  http.Response response = await http.get(website);
+  dom.Document convertData = parse(response.body);
+
+  var Flinks = convertData.getElementsByTagName(('h3 > a'));
+
+  for (var link in Flinks) {
+    FlinkMap.add({
+      'title': link.attributes['title'],
+      'href': link.attributes['href'],
+    });
+  }
+
+  print(json.encode(FlinkMap));
+  print("hi");
+  return FlinkMap;
 }
 
 void goToIngredients(BuildContext context) {
