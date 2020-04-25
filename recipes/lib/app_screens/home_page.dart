@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_app/app_screens/home_page2.dart';
-import 'package:flutter_app/app_screens/settingsPage.dart';
+import 'package:flutterappexample/app_screens/home_page2.dart';
+import 'package:flutterappexample/app_screens/settingsPage.dart';
+import 'package:flutterappexample/app_screens/instructions.dart';
 
 
 class homePage extends StatelessWidget {
@@ -53,7 +54,7 @@ class homePage extends StatelessWidget {
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
+      /*floatingActionButton: FloatingActionButton(
         onPressed: () {
           settingsPage1(context);
         },
@@ -62,6 +63,38 @@ class homePage extends StatelessWidget {
             color: Colors.white,
             size: 27),
         backgroundColor: Colors.deepOrange,
+      ),*/
+      bottomNavigationBar: BottomAppBar(
+        color: Color(0xff072f5f),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: <Widget>[
+            IconButton(
+              icon: Icon(Icons.info_outline, color: Colors.white),
+              onPressed: () {
+                instructions1(context);
+              },
+            ),
+            IconButton(
+              icon: Icon(Icons.grid_on, color: Colors.white),
+              onPressed: () {
+                nextPage(context);
+              },
+            ),
+            IconButton(
+              icon: Icon(Icons.favorite, color: Colors.white),//Icons.grade gives a star
+              onPressed: () {
+                favorites1(context);
+              },
+            ),
+            IconButton(
+              icon: Icon(Icons.settings, color: Colors.white),
+              onPressed: () {
+                settingsPage1(context);
+              },
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -82,6 +115,42 @@ void settingsPage1(BuildContext context) {
         return settingsPage();
       });
 }
+
+
+void instructions1(BuildContext context) {
+  showGeneralDialog(
+      context: context,
+      barrierDismissible: true,
+      barrierLabel: MaterialLocalizations.of(context)
+          .modalBarrierDismissLabel,
+      barrierColor: Colors.black45,
+      transitionDuration: const Duration(milliseconds: 200),
+      pageBuilder: (BuildContext buildContext,
+          Animation animation,
+          Animation secondaryAnimation) {
+        return instructions_HomePage();
+      });
+}
+
+
+
+void favorites1(BuildContext context) {
+  showGeneralDialog(
+      context: context,
+      barrierDismissible: true,
+      barrierLabel: MaterialLocalizations.of(context)
+          .modalBarrierDismissLabel,
+      barrierColor: Colors.black45,
+      transitionDuration: const Duration(milliseconds: 200),
+      pageBuilder: (BuildContext buildContext,
+          Animation animation,
+          Animation secondaryAnimation) {
+        return favorites();
+      });
+}
+
+
+
 
 
 class FindCuisine extends StatelessWidget {

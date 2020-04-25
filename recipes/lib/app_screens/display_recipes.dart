@@ -1,14 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_app/app_screens/ingredients_select.dart';
+import 'package:flutterappexample/app_screens/ingredients_select.dart';
 import 'package:html/parser.dart';
 import 'dart:convert';
 import 'dart:async';
 import 'package:http/http.dart' as http;
 import 'package:html/dom.dart' as dom;
-import 'package:flutter_app/globals.dart' as globals;
+import 'package:flutterappexample/globals.dart' as globals;
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:flutter_app/app_screens/recipes_webview.dart';
+import 'package:flutterappexample/app_screens/recipes_webview.dart';
 
 List<Map<String, dynamic>> YlinkMap = [];
 List<Map<String, dynamic>> YpicsMap = [];
@@ -32,12 +32,12 @@ class main extends StatelessWidget {
             return recipes();
           } else {
             return Container(
-              decoration: BoxDecoration(color: Color(0xff000080)),
+              decoration: BoxDecoration(color: Color(0xff072f5f)),
               child: Center(
                   child: SpinKitPouringHourglass(
-                color: Colors.white,
-                size: 80.0,
-              )),
+                    color: Colors.white,
+                    size: 80.0,
+                  )),
             );
           }
         });
@@ -88,6 +88,7 @@ Future<List<Widget>> YummlyRecipes(context) async {
       break;
     }
     dispYummly.add(new RaisedButton(
+      color: Color(0xff072f5f),
       child: singleRecipe(YlinkMap[i].values.elementAt(0)),
       onPressed: () {
         Navigator.push(
@@ -108,6 +109,7 @@ Future<List<Widget>> EpiRecipes(context) async {
       break;
     }
     dispEpi.add(new RaisedButton(
+      color: Color(0xff072f5f),
       child: singleRecipe(ElinkMap[i].values.elementAt(0)),
       onPressed: () {
         Navigator.push(
@@ -128,6 +130,7 @@ Future<List<Widget>> F52Recipes(context) async {
       break;
     }
     disp52.add(new RaisedButton(
+      color: Color(0xff072f5f),
       child: singleRecipe(FlinkMap[i].values.elementAt(0)),
       onPressed: () {
         Navigator.push(
@@ -147,17 +150,24 @@ Widget _buildGrid(context) => Scaffold(
         height: 55.0,
         child: BottomAppBar(
             child: FlatButton(
-          child: Text("Restart"),
-          onPressed: () {
-            dispYummly = new List<RaisedButton>();
-            dispEpi = new List<RaisedButton>();
-            disp52 = new List<RaisedButton>();
-            ElinkMap = [];
-            YlinkMap = [];
-            FlinkMap = [];
-            goToIngredients(context);
-          },
-        ))),
+              child: Text("Restart",
+                  style: TextStyle(
+                  color: Colors.black,
+                  fontFamily: 'Roboto',
+                  fontSize: 20.0,
+                  fontWeight: FontWeight.w600),
+              textAlign: TextAlign.center,
+              ),
+              onPressed: () {
+                dispYummly = new List<RaisedButton>();
+                dispEpi = new List<RaisedButton>();
+                disp52 = new List<RaisedButton>();
+                ElinkMap = [];
+                YlinkMap = [];
+                FlinkMap = [];
+                goToIngredients(context);
+              },
+            ))),
     body: CustomScrollView(
       primary: false,
       slivers: <Widget>[
@@ -217,14 +227,14 @@ class singleRecipe extends StatelessWidget {
       child: Row(children: <Widget>[
         Flexible(
             child: Text(
-          recipeName,
-          style: TextStyle(
-              color: Colors.black,
-              fontFamily: 'CormorantGaramond-Light.ttf',
-              fontSize: 20.0,
-              fontWeight: FontWeight.w600),
-          textAlign: TextAlign.right,
-        ))
+              recipeName,
+              style: TextStyle(
+                  color: Colors.white,
+                  fontFamily: 'CormorantGaramond-Light.ttf',
+                  fontSize: 20.0,
+                  fontWeight: FontWeight.w600),
+              textAlign: TextAlign.left,
+            ))
       ]),
     );
   }
@@ -233,10 +243,10 @@ class singleRecipe extends StatelessWidget {
 Future<Widget> waiting() =>
     // Imagine that this function is
 // more complex and slow.
-    Future.delayed(
-      Duration(seconds: 7),
+Future.delayed(
+  Duration(seconds: 7),
       () => fake(),
-    );
+);
 
 Future getYummlyData() async {
   print(globals.ingredientsList);

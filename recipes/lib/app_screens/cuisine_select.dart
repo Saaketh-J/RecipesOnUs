@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_app/app_screens/display_recipes.dart';
-import 'package:flutter_app/globals.dart' as globals;
+import 'package:flutterappexample/app_screens/display_recipes.dart';
+import 'package:flutterappexample/globals.dart' as globals;
 
 var cuisineSelect;
 
@@ -19,19 +19,31 @@ class cuisines extends StatelessWidget {
         ));
 
     return Scaffold(
+      appBar: AppBar(
+        title: Text('Cuisines',
+          style: TextStyle(
+            fontFamily: 'Roboto',
+            fontSize: 50.0,
+            fontWeight: FontWeight.w600,
+            color: Colors.white,
+            decoration: TextDecoration.none,
+          )),
+        centerTitle: true, //default makes it in the middle
+        backgroundColor: Colors.deepOrangeAccent,
+      ),
       body: Container(
         padding: EdgeInsets.all(10.0),
         color: Color(0xC05000C),
         child: ListView(children: <Widget>[
           Center(
-              child: Text("Cuisine",
+              /*child: Text("Cuisine",
                   style: TextStyle(
                     fontFamily: 'CormorantGaramond',
                     fontSize: 60.0,
                     fontWeight: FontWeight.w600,
                     color: Colors.black,
                     decoration: TextDecoration.none,
-                  ))),
+                  ))*/),
           cuisine('images/American.jpg', 'American'),
           cuisine('images/Asian_Fusion.jpg', 'Asian'),
           cuisine('images/Italian.jpg', 'Italian'),
@@ -81,19 +93,19 @@ class cuisine extends StatelessWidget {
                     fontSize: 40.0,
                     shadows: [
                       Shadow(
-                          // bottomLeft
+                        // bottomLeft
                           offset: Offset(-.5, -.5),
                           color: Colors.white),
                       Shadow(
-                          // bottomRight
+                        // bottomRight
                           offset: Offset(.5, -.5),
                           color: Colors.white),
                       Shadow(
-                          // topRight
+                        // topRight
                           offset: Offset(.5, .5),
                           color: Colors.white),
                       Shadow(
-                          // topLeft
+                        // topLeft
                           offset: Offset(-.5, .5),
                           color: Colors.white),
                     ],
@@ -126,4 +138,3 @@ void showRecipes(BuildContext context) {
         return main();
       });
 }
-

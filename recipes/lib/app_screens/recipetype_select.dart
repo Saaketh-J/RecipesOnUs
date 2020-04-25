@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_app/app_screens/cuisine_select.dart';
-import 'package:flutter_app/app_screens/home_page.dart';
-import 'package:flutter_app/globals.dart' as globals;
+import 'package:flutterappexample/app_screens/cuisine_select.dart';
+import 'package:flutterappexample/app_screens/home_page.dart';
+import 'package:flutterappexample/globals.dart' as globals;
 
 var cuisineSelect;
 
@@ -28,26 +28,42 @@ class cuisineTypes extends StatelessWidget {
           child: Container(
             padding: EdgeInsets.only(top: 15.0, bottom: 15.0),
             child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
+                  Text(
+                    'Select Course:',
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontFamily: 'Roboto',
+                        fontSize: 50.0,
+                        fontWeight: FontWeight.w600),
+                    textAlign: TextAlign.right,
+                  ),
                   RaisedButton(
                     child: cuisine('images/Appetizer.jpg', 'Appetizer'),
+                    padding: const EdgeInsets.fromLTRB(10, 20, 10, 20) ,
                     onPressed: () {
-                      selectCuisine(context);
-                    },
+                    selectCuisine(context);
+                  },
                   ),
                   RaisedButton(
                     child: cuisine('images/Entree.jpg', 'Entree'),
+                    padding: const EdgeInsets.fromLTRB(10, 0, 10, 20) ,
                     onPressed: () {
                       selectCuisine(context);
                     },
                   ),
                   RaisedButton(
                     child: cuisine('images/Dessert.jpg', 'Dessert'),
+                    padding: const EdgeInsets.fromLTRB(10, 0, 10, 15) ,
                     onPressed: () {
                       selectCuisine(context);
                     },
                   ),
-                ]),)
+
+                ]),
+          ),
       ),);
   }
 }

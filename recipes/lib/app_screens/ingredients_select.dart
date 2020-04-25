@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_app/app_screens/recipetype_select.dart';
-import 'package:flutter_app/globals.dart' as globals;
+import 'package:flutterappexample/app_screens/recipetype_select.dart';
+import 'package:flutterappexample/globals.dart' as globals;
 
 class ingredients extends StatelessWidget {
   @override
@@ -17,24 +17,23 @@ class ingredients extends StatelessWidget {
         },
         child: Scaffold(
             resizeToAvoidBottomPadding: false,
+            appBar: AppBar(
+              iconTheme: IconThemeData(
+                color: Colors.black, //change your color here
+              ),
+              title: Text('Enter Main Ingredients:',
+                style: TextStyle(
+                    color: Colors.black,
+                    fontFamily: 'Roboto',
+                    fontSize: 30.0,
+                    fontWeight: FontWeight.w600),),
+              centerTitle: true, //default makes it in the middle
+              backgroundColor: Colors.white,
+            ),
             body: Container(
               color: Color(0xC05000C),
               alignment: Alignment.center,
               child: ListView(children: <Widget>[
-                Center(
-                  child: Container(
-                    margin: EdgeInsets.only(top: 40.0),
-                    child: Text(
-                      "Enter Main Ingredients: ",
-                      style: TextStyle(
-                        fontSize: 38.0,
-                        color: Color(0xff000080),
-                        fontFamily: 'CormorantGaramond',
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                  ),
-                ),
                 Container(
                   padding: EdgeInsets.only(top: 30.0),
                 ),
@@ -87,12 +86,12 @@ class _TextBoxesState extends State<TextBoxes> {
                 fillColor: Colors.white,
                 enabledBorder: const OutlineInputBorder(
                   borderSide:
-                      const BorderSide(color: Color(0xffED820E), width: 0.0),
+                  const BorderSide(color: Color(0xffED820E), width: 0.0),
                 ),
                 border: OutlineInputBorder(
-                    //borderRadius: BorderRadius.circular(27.0),
-                    //borderSide: BorderSide(color: Colors.deepOrangeAccent, width: 0.0),
-                    )),
+                  //borderRadius: BorderRadius.circular(27.0),
+                  //borderSide: BorderSide(color: Colors.deepOrangeAccent, width: 0.0),
+                )),
             onSubmitted: (var userInput) {
               setState(() {
                 textBox = userInput;

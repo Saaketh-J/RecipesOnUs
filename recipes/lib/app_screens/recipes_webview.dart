@@ -17,7 +17,14 @@ class webview extends StatelessWidget {
     if(website == 'Yummly') {
       return new Scaffold(
         appBar: AppBar(
-          title: Text(name),
+          title: Text(name,
+            style: TextStyle(
+                color: Colors.white,
+                fontFamily: 'Roboto',
+                fontSize: 30.0,
+                fontWeight: FontWeight.w600),),
+          centerTitle: true, //default makes it in the middle
+          backgroundColor: Colors.deepOrangeAccent,
         ),
         body: Center(
           child: WebviewScaffold(
@@ -31,7 +38,14 @@ class webview extends StatelessWidget {
     if(website == 'Epi') {
       return new Scaffold(
         appBar: AppBar(
-          title: Text(name),
+          title: Text(name,
+            style: TextStyle(
+                color: Colors.white,
+                fontFamily: 'Roboto',
+                fontSize: 30.0,
+                fontWeight: FontWeight.w600),),
+          centerTitle: true, //default makes it in the middle
+          backgroundColor: Colors.deepOrangeAccent,
         ),
         body: Center(
           child: WebviewScaffold(
@@ -45,7 +59,14 @@ class webview extends StatelessWidget {
     if(website == 'F52') {
       return new Scaffold(
         appBar: AppBar(
-          title: Text(name),
+          title: Text(name,
+            style: TextStyle(
+                color: Colors.white,
+                fontFamily: 'Roboto',
+                fontSize: 30.0,
+                fontWeight: FontWeight.w600),),
+          centerTitle: true, //default makes it in the middle
+          backgroundColor: Colors.deepOrangeAccent,
         ),
         body: Center(
           child: WebviewScaffold(

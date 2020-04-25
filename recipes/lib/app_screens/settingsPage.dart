@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_app/app_screens/home_page.dart';
-import 'package:flutter_app/app_screens/home_page2.dart';
+import 'package:flutterappexample/app_screens/home_page.dart';
+import 'package:flutterappexample/app_screens/home_page2.dart';
 
 class settingsPage extends StatelessWidget {
   @override
@@ -17,57 +17,83 @@ class settingsPage extends StatelessWidget {
         centerTitle: true, //default makes it in the middle
         backgroundColor: Colors.deepOrangeAccent,
       ),
-     body:ListView(
-       children: [
-         FlatButton(child: Align(
-           alignment: Alignment.topLeft,
-           child:Text('Standard Ingredients',
-             style: TextStyle(
-               fontWeight: FontWeight.w500,
-               fontSize: 20,
-             ),
-          textAlign: TextAlign.right,
-         ),
-        ),
-          onPressed: () {
+      body:ListView(
+        children: [
+          FlatButton(child: Align(
+            alignment: Alignment.topLeft,
+            child:Text('Standard Ingredients',
+              style: TextStyle(
+                fontWeight: FontWeight.w500,
+                fontSize: 20,
+              ),
+              textAlign: TextAlign.right,
+            ),
+          ),
+            onPressed: () {
               changePage(context);
-           },
-           padding: EdgeInsets.symmetric(vertical:15, horizontal: 15),
-         ),
-         Divider(),
-         FlatButton(child: Align(
-           alignment: Alignment.topLeft,
-           child:Text('App Instructions',
-             style: TextStyle(
-               fontWeight: FontWeight.w500,
-               fontSize: 20,
-             ),
-           textAlign: TextAlign.right,
-         ),
-         ),
-           onPressed: () {},
-           padding: EdgeInsets.symmetric(vertical:15, horizontal: 15),
-         ),
-         Divider(),
-         FlatButton(child: Align(
-           alignment: Alignment.topLeft,
-           child:Text('Favorite Recipes',
-             style: TextStyle(
-               fontWeight: FontWeight.w500,
-               fontSize: 20,
-             ),
-             textAlign: TextAlign.right,
-           ),
-         ),
-           onPressed: () {},
-           padding: EdgeInsets.symmetric(vertical:15, horizontal: 15),
-         ),
-       ],
-     ),
+            },
+            padding: EdgeInsets.symmetric(vertical:15, horizontal: 15),
+          ),
+          Divider(),
+          FlatButton(child: Align(
+            alignment: Alignment.topLeft,
+            child:Text('App Instructions',
+              style: TextStyle(
+                fontWeight: FontWeight.w500,
+                fontSize: 20,
+              ),
+              textAlign: TextAlign.right,
+            ),
+          ),
+            onPressed: () {},
+            padding: EdgeInsets.symmetric(vertical:15, horizontal: 15),
+          ),
+          Divider(),
+          FlatButton(child: Align(
+            alignment: Alignment.topLeft,
+            child:Text('Favorite Recipes',
+              style: TextStyle(
+                fontWeight: FontWeight.w500,
+                fontSize: 20,
+              ),
+              textAlign: TextAlign.right,
+            ),
+          ),
+            onPressed: () {},
+            padding: EdgeInsets.symmetric(vertical:15, horizontal: 15),
+          ),
+        ],
+      ),
 
     );
   }
 }
+
+
+class favorites extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Favorite Recipes',
+          style: TextStyle(
+              color: Colors.white,
+              fontFamily: 'Roboto',
+              fontSize: 30.0,
+              fontWeight: FontWeight.w600),),
+        centerTitle: true, //default makes it in the middle
+        backgroundColor: Colors.deepOrangeAccent,
+      ),
+
+    );
+  }
+}
+
+
+
+
+
+
 
 
 
@@ -85,4 +111,3 @@ void changePage(BuildContext context) {
         return standardIngredients();
       });
 }
-

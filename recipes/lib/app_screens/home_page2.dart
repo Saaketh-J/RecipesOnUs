@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_app/app_screens/ingredients_select.dart';
+import 'package:flutterappexample/app_screens/ingredients_select.dart';
 
 var standardIngredientsList = new List<String>();
+
 
 class standardIngredients extends StatefulWidget{
   @override
@@ -11,22 +12,22 @@ class standardIngredients extends StatefulWidget{
 
 
 class work extends State<standardIngredients> {
-  bool pressed1 = false;
-  bool pressed2 = false;
-  bool pressed3 = false;
-  bool pressed4 = false;
-  bool pressed5 = false;
-  bool pressed6 = false;
-  bool pressed7 = false;
-  bool pressed8 = false;
-  bool pressed9 = false;
-  bool pressed10 = false;
-  bool pressed11 = false;
-  bool pressed12 = false;
-  bool pressed13 = false;
-  bool pressed14 = false;
-  bool pressed15 = false;
-  bool pressed16 = false;
+  static bool pressed1 = false;
+  static bool pressed2 = false;
+  static bool pressed3 = false;
+  static bool pressed4 = false;
+  static  bool pressed5 = false;
+  static bool pressed6 = false;
+  static  bool pressed7 = false;
+  static  bool pressed8 = false;
+  static  bool pressed9 = false;
+  static bool pressed10 = false;
+  static bool pressed11 = false;
+  static bool pressed12 = false;
+  static  bool pressed13 = false;
+  static  bool pressed14 = false;
+  static  bool pressed15 = false;
+  static  bool pressed16 = false;
 
   @override
   Widget build(BuildContext context) {
@@ -152,8 +153,8 @@ class work extends State<standardIngredients> {
   }
 }
 
-  // #docregion grid
-  // #enddocregion grid
+// #docregion grid
+// #enddocregion grid
 
 class removeIngredient extends StatelessWidget {
   var ingredientImage;
@@ -176,12 +177,12 @@ class removeIngredient extends StatelessWidget {
         children: <Widget>[
           Expanded(
             child: Align(
-                alignment: Alignment.bottomRight,
-                child:Icon(
+              alignment: Alignment.bottomRight,
+              child:Icon(
                   Icons.check,
-                    color: Color(0xff000080),
-                      size:50.0
-                ),
+                  color: Color(0xff000080),
+                  size:50.0
+              ),
             ),
           ),
         ],
@@ -235,7 +236,6 @@ class singleIngredient extends StatelessWidget {
 void selectCuisine(BuildContext context) {
   var alertDialog = AlertDialog(
     title: Text("Please work"),
-    content: Text("$standardIngredientsList"),
   );
 
   showGeneralDialog(
